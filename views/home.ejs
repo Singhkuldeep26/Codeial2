@@ -1,25 +1,31 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        <%= title %>
-    </title>
-</head>
-<body>
-    <%- include('_header'); %>
- -->
-    <h1>Codeial / <%= title %></h1>
+<link rel="stylesheet" href="/css/home.css">
 
-    <!-- <%- include('_footer'); %>
-</body>
-</html> -->
+<div id="home-container">
 <section id="feed-posts">
     <h4>Posts</h4>
-    <form action="" id="new-post-form" method="POST">
-    <textarea name="content" cols="30" rows="3" placeholder="Text Here..."></textarea>
-    <input type="submit" value="Post">
+    <% if(locals.user){ %>
+    <form action="/posts/create" id="new-post-form" method="POST">
+        <textarea name="content" cols="30" rows="3" placeholder="Type Here..." required></textarea>
+        <input type="submit" value="Post">
     </form>
+    <% } %>
+
+    <div id="posts-list-container">
+        <ul>
+            <% for(post of posts){ %>
+                
+           <%- include('_post') -%>
+                
+            <% } %>
+        </ul>
+    </div>
 </section>
+<section id="user-friends">
+    <h4>Friends</h4>
+    <% for(u of all_users){ %>
+        <p>
+            <a href="/users/profile/<%= u.id %>"><%= u.name %></a>
+        </p>
+    <% } %>
+</section>
+</div>

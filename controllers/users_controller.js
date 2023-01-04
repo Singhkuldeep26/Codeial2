@@ -4,8 +4,14 @@ const User=require('../models/user');
 
 module.exports.profile=function(req,res){
     //res.end('<h1>User Profile</h1>');
-    return res.render('user_profile',{
-        title:"User Profile"
+    // return res.render('user_profile',{
+    //     title:"User Profile"
+    // });
+    User.findById(req.params.id,function(err,user){
+        return res.render('user_profile',{
+            title:"User Profile",
+            profile_user:user
+        });
     });
     /* if(req.cookies.user_id){
         User.findById(req.cookies.user_id,function(err,user){
@@ -21,6 +27,15 @@ module.exports.profile=function(req,res){
     }else{
         return res.redirect('/users/sign-in');
     } */
+}
+module.exports.update=function(req,res){
+    if(req.user.id==req.params.id){
+        User.findByIdAndUpdate(req.params.id,req.body,function(err,user){
+           return res.redirect('back');
+        });
+    }else{
+        return res.status(401).send('Unauthorized');
+    }
 }
 
 //render the sign up page
@@ -84,6 +99,7 @@ module.exports.create=function(req,res){
 
 // sign in and create a session for the user
 module.exports.createSession = function(req, res){
+    req.flash('success','Logged in successfully');
     return res.redirect('/');
 }
 
@@ -92,6 +108,7 @@ module.exports.destroySession=function(req,res){
         if(err){
             console.log('Error');
         }
+        req.flash('success','You have logged out!');
+        return res.redirect('/');
     });
-    return res.redirect('/');
 }
