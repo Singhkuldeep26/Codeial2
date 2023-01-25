@@ -1,6 +1,6 @@
 const gulp = require('gulp');
-
-const sass = require('gulp-sass');
+const sass = require('gulp-sass')(require('node-sass'));
+// const sass = require('gulp-sass');
 const cssnano = require('gulp-cssnano');
 const rev = require('gulp-rev');
 const uglify = require('gulp-uglify-es').default;
@@ -25,6 +25,7 @@ gulp.task('css', function(done){
     }))
     .pipe(gulp.dest('./public/assets'));
     done();
+    
 });
 
 
@@ -58,7 +59,7 @@ gulp.task('images', function(done){
 });
 
 
-// empty the public/assets directory
+//empty the public/assets directory
 gulp.task('clean:assets', function(done){
     del.sync('./public/assets');
     done();
@@ -68,3 +69,4 @@ gulp.task('build', gulp.series('clean:assets', 'css', 'js', 'images'), function(
     console.log('Building assets');
     done();
 });
+
