@@ -1,4 +1,4 @@
-const fs=require('fs/promises');
+const fs=require('fs').promises;
 const rfs=require('rotating-file-stream');
 const path=require('path');
 
